@@ -1,0 +1,175 @@
+:root {
+    /* Background */
+    --bg-main: #F5F9FF;
+    --bg-cards: #FFFFFF;
+
+    /* Sidebar */
+    --sidebar-bg: #0F172A;
+    --sidebar-text: #E2E8F0;
+    --sidebar-active: #1E88E5;
+    --sidebar-hover: #334155;
+
+    /* Navbar */
+    --navbar-bg: #FFFFFF;
+    --navbar-border: #E2E8F0;
+
+    /* Buttons */
+    --btn-primary: #1E88E5;
+    --btn-primary-hover: #1565C0;
+    --btn-success: #2ECC71;
+    --btn-danger: #EF4444;
+    --btn-warning: #F59E0B;
+
+    /* Cards */
+    --card-border: #E5E7EB;
+    --card-icon-bg: #E8F2FF;
+
+    /* Status */
+    --status-available: #22C55E;
+    --status-pending: #F59E0B;
+    --status-critical: #EF4444;
+    --status-discharged: #6B7280;
+
+    /* Tables */
+    --table-header: #F1F5F9;
+    --table-row-hover: #F8FAFC;
+    --table-border: #E2E8F0;
+
+    /* Text */
+    --text-main: #1E293B;
+    --text-sec: #64748B;
+
+    /* Gradient */
+    --main-gradient: linear-gradient(135deg, #1E88E5, #2ECC71);
+}
+
+body {
+    background: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Base structural blocks */
+.app-layout {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+.sidebar {
+    background: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    border-right: 1px solid var(--navbar-border);
+}
+
+.sidebar-link {
+    color: var(--sidebar-text);
+    transition: all 0.3s;
+}
+
+.sidebar-link:hover {
+    background: var(--sidebar-hover);
+}
+
+.sidebar-link.active {
+    background: var(--sidebar-active);
+    color: #ffffff;
+}
+
+.navbar {
+    background: var(--navbar-bg);
+    border-bottom: 1px solid var(--navbar-border);
+}
+
+/* Premium Card Overrides */
+.premium-card {
+    background: var(--bg-cards);
+    border: 1px solid var(--card-border);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.premium-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(30, 136, 229, 0.1);
+    border-color: var(--btn-primary);
+}
+
+.card-icon {
+    background: var(--card-icon-bg);
+    color: var(--btn-primary);
+}
+
+/* Buttons */
+.btn-primary { background: var(--btn-primary); color: white; transition: background 0.2s; }
+.btn-primary:hover { background: var(--btn-primary-hover); }
+
+/* Badges */
+.badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 800; }
+.badge-available { background: rgba(34, 197, 94, 0.1); color: var(--status-available); border: 1px solid rgba(34, 197, 94, 0.3); }
+.badge-pending { background: rgba(245, 158, 11, 0.1); color: var(--status-pending); border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-critical { background: rgba(239, 68, 68, 0.1); color: var(--status-critical); border: 1px solid rgba(239, 68, 68, 0.3); }
+.badge-discharged { background: rgba(107, 114, 128, 0.1); color: var(--status-discharged); border: 1px solid rgba(107, 114, 128, 0.3); }
+
+/* Table overrides */
+.table-header { background: var(--table-header); }
+.table-row { border-bottom: 1px solid var(--table-border); transition: background 0.2s; }
+.table-row:hover { background: var(--table-row-hover); }
+
+/* Decorative Background */
+.gradient-bg-element {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: var(--main-gradient);
+    filter: blur(100px);
+    opacity: 0.15;
+    border-radius: 50%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Scrollbar tweaks */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--sidebar-hover); border-radius: 4px; border: 1px solid var(--card-border); }
+::-webkit-scrollbar-thumb:hover { background: var(--btn-primary); }
+
+.text-sec { color: var(--text-sec); }
+.text-main { color: var(--text-main); }
+
+/* Responsive Sidebar Mobile */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 50;
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 40;
+        animation: fadeIn 0.3s ease-out forwards;
+    }
+    .sidebar-overlay.active {
+        display: block;
+    }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

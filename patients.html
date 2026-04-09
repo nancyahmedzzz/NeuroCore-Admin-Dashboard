@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients Database | NeuroCore Center</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], en: ['Plus Jakarta Sans', 'sans-serif'] } } } };
+    </script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="app-layout antialiased transition-colors">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 h-full sidebar flex flex-col z-20 flex-shrink-0 transition-colors">
+        <div class="h-20 flex items-center px-6 border-b" style="border-color: var(--navbar-border);">
+            <div class="w-10 h-10 card-icon rounded-xl flex items-center justify-center shadow-lg">
+                <i data-lucide="brain" class="w-6 h-6"></i>
+            </div>
+            <span class="ml-4 font-bold text-xl tracking-tight" style="color: var(--sidebar-text);">NeuroCore</span>
+        </div>
+        
+        <nav class="flex-1 py-8 px-4 overflow-y-auto space-y-2">
+            <p class="px-4 text-xs font-bold uppercase tracking-wider mb-2" style="color: rgba(255,255,255,0.4)">Main Menu</p>
+            
+            <a href="index.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl group">
+                <i data-lucide="activity" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                <span class="ml-4 text-sm font-semibold">Overview</span>
+            </a>
+            <a href="analytics.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl group">
+                <i data-lucide="bar-chart-2" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                <span class="ml-4 text-sm font-semibold">Clinical Analytics</span>
+            </a>
+            <a href="patients.html" class="sidebar-link active flex items-center px-4 py-3 rounded-xl group">
+                <i data-lucide="users" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                <span class="ml-4 text-sm font-semibold">Patients</span>
+                <span class="ml-auto bg-[var(--btn-primary)] text-white py-0.5 px-2 rounded-full text-[10px] font-bold">30</span>
+            </a>
+            <a href="settings.html" class="sidebar-link flex items-center px-4 py-3 rounded-xl group">
+                <i data-lucide="settings" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
+                <span class="ml-4 text-sm font-semibold">Settings</span>
+            </a>
+        </nav>
+
+        <div class="p-6 border-t" style="border-color: var(--navbar-border);">
+            <div class="flex items-center gap-3">
+                <img src="https://ui-avatars.com/api/?name=Nancy+Ahmed&background=1E88E5&color=fff&rounded=true" class="w-10 h-10 rounded-full object-cover group-hover:scale-105 transition-transform" alt="Nancy Ahmed">
+                <div>
+                    <h4 class="text-sm font-bold" style="color: var(--sidebar-text);">Dr. Nancy Ahmed</h4>
+                    <p class="text-[11px] font-bold uppercase" style="color: rgba(255,255,255,0.5)">Head of Neurosurgery</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col relative w-full h-full transition-colors overflow-hidden bg-transparent">
+        
+        <!-- Header -->
+        <header class="h-20 navbar flex items-center justify-between px-8 z-10 sticky top-0">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSidebar()" class="md:hidden w-10 h-10 rounded-xl flex items-center justify-center bg-[var(--bg-main)] border border-[var(--card-border)] text-main hover:-translate-y-1 shadow-sm transition-all focus:outline-none">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <div class="flex items-center gap-4">
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto w-full p-8 relative">
+            <div class="gradient-bg-element"></div>
+            
+            <div class="page-content" style="opacity: 1; animation: none;">
+                <div class="flex justify-between items-end mb-8">
+                    <div>
+                        <h1 class="text-3xl font-bold text-main">Clinical Patient Database</h1>
+                        <p class="text-sm text-sec mt-1 font-medium">Comprehensive medical records and status tracking for neurological department.</p>
+                    </div>
+                    <button class="btn-primary px-5 py-2.5 rounded-xl font-bold text-sm hover:-translate-y-1 transition-transform flex items-center gap-2 shadow-sm">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        Admit New Patient
+                    </button>
+                </div>
+
+                <div class="premium-card overflow-hidden flex flex-col max-h-[70vh]">
+                    <div class="p-4 border-b flex justify-between items-center" style="border-color: var(--card-border); background: var(--table-header); z-10;">
+                        <div class="relative w-64">
+                            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-sec"></i>
+                            <input type="text" placeholder="Search ID or Name" class="w-full bg-[var(--bg-cards)] border border-[var(--card-border)] rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-1 text-main" style="--tw-ring-color: var(--btn-primary);">
+                        </div>
+                        <div class="flex gap-2 text-sm">
+                            <button class="px-3 py-1.5 rounded-lg border bg-[var(--bg-cards)] text-main flex items-center gap-2" style="border-color: var(--card-border); transition: background 0.2s;" onmouseover="this.style.background='var(--table-row-hover)'" onmouseout="this.style.background='var(--bg-cards)'"><i data-lucide="filter" class="w-4 h-4"></i> Filter</button>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto overflow-y-auto flex-1">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="sticky top-0 z-10 table-header">
+                                <tr>
+                                    <th class="px-6 py-4 text-xs font-bold text-sec uppercase tracking-wider border-b" style="border-color: var(--card-border);">Patient Info</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-sec uppercase tracking-wider border-b" style="border-color: var(--card-border);">Primary Diagnosis</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-sec uppercase tracking-wider border-b" style="border-color: var(--card-border);">Admitting Doctor</th>
+                                    <th class="px-6 py-4 text-xs font-bold text-sec uppercase tracking-wider border-b" style="border-color: var(--card-border);">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="patientsTableBody" class="divide-y text-sm" style="border-color: var(--card-border);">
+                                <!-- JavaScript will inject 30 real names here to simulate a medical database -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script to dynamically generate the 30 patients -->
+    <script>
+        const patientsData = [
+            { name: "Mahmoud Ibrahim", mrn: "MRN-1010", diag: "Glioblastoma Multiforme", doc: "Dr. Yassin", status: "Critical", sClass: "badge-critical" },
+            { name: "John Carter", mrn: "MRN-1011", diag: "Cerebral Aneurysm", doc: "Dr. Ahmed", status: "ICU", sClass: "badge-icu" },
+            { name: "Sarah Connor", mrn: "MRN-1012", diag: "Lumbar Disc Herniation", doc: "Dr. Smith", status: "Stable", sClass: "badge-stable" },
+            { name: "Yasmin Tarek", mrn: "MRN-1013", diag: "Epilepsy", doc: "Dr. Yassin", status: "Observation", sClass: "badge-observation" },
+            { name: "Michael Chang", mrn: "MRN-1014", diag: "Meningioma", doc: "Dr. Ahmed", status: "Stable", sClass: "badge-stable" },
+            { name: "Emily Blunt", mrn: "MRN-1015", diag: "Spinal Stenosis", doc: "Dr. Smith", status: "Stable", sClass: "badge-stable" },
+            { name: "Amr Diab", mrn: "MRN-1016", diag: "Trigeminal Neuralgia", doc: "Dr. Yassin", status: "Observation", sClass: "badge-observation" },
+            { name: "Hoda Sultan", mrn: "MRN-1017", diag: "Subdural Hematoma", doc: "Dr. Ahmed", status: "ICU", sClass: "badge-icu" },
+            { name: "Robert De Niro", mrn: "MRN-1018", diag: "Parkinson's (DBS)", doc: "Dr. Yassin", status: "Stable", sClass: "badge-stable" },
+            { name: "Mona Zaki", mrn: "MRN-1019", diag: "Pituitary Adenoma", doc: "Dr. Smith", status: "Observation", sClass: "badge-observation" },
+            { name: "Liam Neeson", mrn: "MRN-1020", diag: "Chiari Malformation", doc: "Dr. Ahmed", status: "Stable", sClass: "badge-stable" },
+            { name: "Tarek Nour", mrn: "MRN-1021", diag: "Acoustic Neuroma", doc: "Dr. Yassin", status: "Stable", sClass: "badge-stable" },
+            { name: "Jessica Alba", mrn: "MRN-1022", diag: "Hydrocephalus", doc: "Dr. Smith", status: "Observation", sClass: "badge-observation" },
+            { name: "Naguib Mahfouz", mrn: "MRN-1023", diag: "Stroke (Ischemic)", doc: "Dr. Ahmed", status: "Critical", sClass: "badge-critical" },
+            { name: "Tom Hardy", mrn: "MRN-1024", diag: "Spinal Cord Injury", doc: "Dr. Yassin", status: "ICU", sClass: "badge-icu" },
+            { name: "Sherine Abdel", mrn: "MRN-1025", diag: "Carpal Tunnel Syndrome", doc: "Dr. Smith", status: "Stable", sClass: "badge-stable" },
+            { name: "Chris Evans", mrn: "MRN-1026", diag: "Brain Abscess", doc: "Dr. Ahmed", status: "ICU", sClass: "badge-icu" },
+            { name: "Nelly Karim", mrn: "MRN-1027", diag: "Brain Metastasis", doc: "Dr. Yassin", status: "Observation", sClass: "badge-observation" },
+            { name: "Scarlett Johansson",mrn: "MRN-1028", diag: "Cervical Radiculopathy", doc: "Dr. Smith", status: "Stable", sClass: "badge-stable" },
+            { name: "Ahmed Helmy", mrn: "MRN-1029", diag: "Cavernous Malformation", doc: "Dr. Ahmed", status: "Observation", sClass: "badge-observation" },
+            { name: "Will Smith", mrn: "MRN-1030", diag: "Craniosynostosis", doc: "Dr. Yassin", status: "Stable", sClass: "badge-stable" },
+            { name: "Adel Emam", mrn: "MRN-1031", diag: "Spondylolisthesis", doc: "Dr. Smith", status: "Stable", sClass: "badge-stable" },
+            { name: "Margot Robbie", mrn: "MRN-1032", diag: "Osteomyelitis (Skull)", doc: "Dr. Ahmed", status: "Observation", sClass: "badge-observation" },
+            { name: "Ramy Malek", mrn: "MRN-1033", diag: "Peripheral Nerve Tumor", doc: "Dr. Yassin", status: "Stable", sClass: "badge-stable" },
+            { name: "Emma Stone", mrn: "MRN-1034", diag: "Arteriovenous Malformation", doc: "Dr. Ahmed", status: "ICU", sClass: "badge-icu" },
+            { name: "Mohamed Salah", mrn: "MRN-1035", diag: "Concussion", doc: "Dr. Smith", status: "Stable", sClass: "badge-stable" },
+            { name: "Keanu Reeves", mrn: "MRN-1036", diag: "Tethered Cord Syndrome", doc: "Dr. Yassin", status: "Observation", sClass: "badge-observation" },
+            { name: "Hend Sabry", mrn: "MRN-1037", diag: "Moya-moya Disease", doc: "Dr. Ahmed", status: "Critical", sClass: "badge-critical" },
+            { name: "Brad Pitt", mrn: "MRN-1038", diag: "Syringomyelia", doc: "Dr. Smith", status: "Stable", sClass: "badge-stable" },
+            { name: "Menna Shalaby", mrn: "MRN-1039", diag: "Cerebral Edema", doc: "Dr. Yassin", status: "ICU", sClass: "badge-icu" }
+        ];
+
+        const tbody = document.getElementById('patientsTableBody');
+        patientsData.forEach(p => {
+            const tr = document.createElement('tr');
+            tr.className = "table-row cursor-pointer group";
+            tr.innerHTML = `
+                <td class="px-6 py-4">
+                    <div class="flex items-center gap-3">
+                        <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&background=1E88E5&color=fff&rounded=true" class="w-10 h-10 rounded-full group-hover:scale-105 transition-transform" />
+                        <div>
+                            <p class="font-bold text-main">${p.name}</p>
+                            <p class="text-xs text-sec mt-0.5">${p.mrn}</p>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 font-bold text-main">${p.diag}</td>
+                <td class="px-6 py-4 text-sec">${p.doc}</td>
+                <td class="px-6 py-4">
+                    <span class="badge ${p.sClass.replace('badge-observation', 'badge-pending')}">${p.status}</span>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
