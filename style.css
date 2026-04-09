@@ -173,3 +173,31 @@ body {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+
+/* Custom Notification & Modal Animations */
+.anima-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* New Row Highlight Pulse */
+.row-highlight {
+    animation: highlightPulse 2s ease-out forwards;
+}
+
+@keyframes highlightPulse {
+    0% { background-color: rgba(34, 197, 94, 0.2); }
+    100% { background-color: transparent; }
+}
+
+/* Custom Scrollbar for Drawer */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--card-border);
+    border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--btn-primary);
+}
+

@@ -184,3 +184,185 @@ window.toggleSidebar = function() {
         overlay.classList.add('active');
     }
 };
+// --- Notifications Logic ---
+window.toggleNotifDropdown = function() {
+    const dropdown = document.getElementById('notifDropdown');
+    const isVisible = dropdown.classList.contains('invisible');
+    
+    if (isVisible) {
+        dropdown.classList.remove('invisible', 'opacity-0', 'translate-y-2');
+        dropdown.classList.add('visible', 'opacity-100', 'translate-y-0');
+    } else {
+        dropdown.classList.add('invisible', 'opacity-0', 'translate-y-2');
+        dropdown.classList.remove('visible', 'opacity-100', 'translate-y-0');
+    }
+};
+
+window.openNotifDrawer = function() {
+    // Close dropdown first
+    const dropdown = document.getElementById('notifDropdown');
+    dropdown.classList.add('invisible', 'opacity-0', 'translate-y-2');
+    
+    const overlay = document.getElementById('notifDrawerOverlay');
+    const drawer = document.getElementById('notifDrawer');
+    
+    overlay.classList.remove('invisible', 'opacity-0');
+    overlay.classList.add('visible', 'opacity-100');
+    
+    drawer.classList.remove('translate-x-full');
+    drawer.classList.add('translate-x-0');
+};
+
+window.closeNotifDrawer = function() {
+    const overlay = document.getElementById('notifDrawerOverlay');
+    const drawer = document.getElementById('notifDrawer');
+    
+    overlay.classList.add('invisible', 'opacity-0');
+    overlay.classList.remove('visible', 'opacity-100');
+    
+    drawer.classList.add('translate-x-full');
+    drawer.classList.remove('translate-x-0');
+};
+
+window.markAllAsRead = function() {
+    const badge = document.getElementById('notifBadge');
+    if (badge) badge.classList.add('hidden');
+    
+    const drawerList = document.getElementById('notifDrawerList');
+    const dropdownList = document.getElementById('notifDropdownList');
+    
+    const emptyState = `
+        <div class="flex flex-col items-center justify-center h-64 text-center p-6 anima-fade-in">
+            <div class="w-16 h-16 bg-[var(--btn-success)]/10 text-[var(--btn-success)] rounded-full flex items-center justify-center mb-4">
+                <i data-lucide="check-check" class="w-8 h-8"></i>
+            </div>
+            <h3 class="font-bold text-main">All caught up!</h3>
+            <p class="text-xs text-sec mt-2">No new notifications at the moment.</p>
+        </div>
+    `;
+    
+    if (drawerList) drawerList.innerHTML = emptyState;
+    if (dropdownList) {
+        dropdownList.innerHTML = `
+            <div class="p-8 text-center">
+                <p class="text-sm text-sec font-medium">No new notifications</p>
+            </div>
+        `;
+    }
+    
+    initializeIcons();
+};
+
+// Close dropdown on outside click
+document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('notifDropdown');
+    const btn = document.getElementById('notifBtn');
+    
+    if (dropdown && !dropdown.contains(e.target) && !btn.contains(e.target)) {
+        dropdown.classList.add('invisible', 'opacity-0', 'translate-y-2');
+        dropdown.classList.remove('visible', 'opacity-100', 'translate-y-0');
+    }
+});
+
+// --- Add Patient Modal Logic ---
+window.openAddPatientModal = function() {
+    const modal = document.getElementById('addPatientModal');
+    const content = modal.querySelector('div:nth-child(2)');
+    
+    modal.classList.remove('invisible', 'opacity-0');
+    modal.classList.add('visible', 'opacity-100');
+    
+    content.classList.remove('scale-95');
+    content.classList.add('scale-100');
+};
+
+window.closeAddPatientModal = function() {
+    const modal = document.getElementById('addPatientModal');
+    const content = modal.querySelector('div:nth-child(2)');
+    
+    modal.classList.add('invisible', 'opacity-0');
+    modal.classList.remove('visible', 'opacity-100');
+    
+    content.classList.add('scale-95');
+    content.classList.remove('scale-100');
+};
+
+// Form Processing
+document.addEventListener('DOMContentLoaded', () => {
+    const addPatientForm = document.getElementById('addPatientForm');
+    if (addPatientForm) {
+        addPatientForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const submitLoader = document.getElementById('submitLoader');
+            const submitText = submitBtn.querySelector('span');
+            
+            // Show Loading
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.8';
+            submitLoader.classList.remove('hidden');
+            submitText.innerText = 'Processing...';
+            
+            setTimeout(() => {
+                const formData = new FormData(addPatientForm);
+                const name = formData.get('name');
+                const mrn = formData.get('mrn');
+                const diag = formData.get('diag');
+                const doc = formData.get('doc');
+                const status = formData.get('status');
+                
+                // Get badge class
+                let badgeClass = 'badge-available';
+                if (status === 'Critical') badgeClass = 'badge-critical';
+                if (status === 'ICU') badgeClass = 'badge-critical';
+                if (status === 'Observation') badgeClass = 'badge-pending';
+                if (status === 'Stable') badgeClass = 'badge-available';
+                
+                const tableBody = document.getElementById('patientsTableBody');
+                if (tableBody) {
+                    const newRow = document.createElement('tr');
+                    newRow.className = "table-row cursor-pointer group bg-green-50/50 dark:bg-green-900/10 transition-all duration-1000";
+                    newRow.innerHTML = `
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=1E88E5&color=fff&rounded=true" class="w-10 h-10 rounded-full group-hover:scale-105 transition-transform" />
+                                <div>
+                                    <p class="font-bold text-main">${name}</p>
+                                    <p class="text-xs text-sec mt-0.5">${mrn}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 font-bold text-main">${diag}</td>
+                        <td class="px-6 py-4 text-sec">${doc}</td>
+                        <td class="px-6 py-4">
+                            <span class="badge ${badgeClass}">${status}</span>
+                        </td>
+                    `;
+                    
+                    tableBody.prepend(newRow);
+                    
+                    // Re-init icons 
+                    initializeIcons();
+                    
+                    // Remove highlight after 2s
+                    setTimeout(() => {
+                        newRow.classList.remove('bg-green-50/50', 'dark:bg-green-900/10');
+                    }, 2000);
+                }
+                
+                // Reset and Close
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitLoader.classList.add('hidden');
+                submitText.innerText = 'Confirm Admission';
+                addPatientForm.reset();
+                closeAddPatientModal();
+                
+            }, 1000);
+        });
+    }
+});
+
+// Update Icons on various events
+window.addEventListener('load', initializeIcons);
